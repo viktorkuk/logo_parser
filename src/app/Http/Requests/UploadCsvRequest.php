@@ -15,7 +15,7 @@ class UploadCsvRequest extends FormRequest
             'csv_file' => [
                 'required',
                 'file',
-                'mimes:csv'
+                'mimes:csv,txt'
             ],
         ];
     }

@@ -9,6 +9,7 @@ use App\Services\CsvService;
 use \View;
 use \Storage;
 use App\Http\Requests\UploadCsvRequest;
+use \Cache;
 
 class ParserController extends Controller
 {
@@ -41,22 +42,26 @@ class ParserController extends Controller
             'logos',
             [
                 'domains' => $domains,
-                'domainLogos' => $domainLogos
+                'domainLogos' => $domainLogos,
+                'parseError' => Cache::get('parse_error') ?: 0,
+                'parseSuccess' => Cache::get('parse_success') ?: 0
             ]
         );
     }
 
-    public function uploadCsv(/*UploadCsvRequest*/ Request $request)
+    public function uploadCsv(UploadCsvRequest $request)
     {
-        /*if( !$request->validated() ) {
+        if( !$request->validated() ) {
             return Redirect::home()->withErrors('message', 'Wrong file! :)');
-        }*/
+        }
 
         //$request->session()->getId();
 
         $path = $request->file('csv_file')->storeAs(
             'csv', 'domain.csv' //$request->user()->id
         );
+
+        Cache::flush();
 
         return Redirect::home();
     }

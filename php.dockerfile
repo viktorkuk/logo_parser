@@ -12,6 +12,17 @@ WORKDIR /var/www/html
 
 RUN docker-php-ext-install pdo pdo_mysql
 
-RUN apk add --no-cache libpng libpng-dev && docker-php-ext-install gd
+#RUN apk add --no-cache libpng libpng-dev && docker-php-ext-install gd
+
+RUN apk --no-cache update \
+    && apk --no-cache upgrade \
+    && apk add --no-cache $PHPIZE_DEPS \
+        freetype-dev \
+        libjpeg-turbo-dev \
+        libpng-dev && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) gd
+
+RUN php -r 'var_dump(gd_info());'
 
 #RUN apk add --no-cache freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev docker-php-ext-configure gd

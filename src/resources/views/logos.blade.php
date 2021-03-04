@@ -1,7 +1,7 @@
 @extends('layout.bootstrap')
 
 @section('js_scripts')
-    <script src="{{ asset('js/click.js') }}" ></script>
+    <script src="{{ asset('js/script.js') }}" ></script>
 @endsection
 
 @section('content')
@@ -50,11 +50,21 @@
     @endif
 
     <div class="row" style="margin-bottom: 50px; margin-top: 20px;">
-        <div class="col-10">
-            <h2>Domains</h2>
+        <div class="col-8">
+            <a href="{{ route('home') }}" >
+                <h2>Domains</h2>
+            </a>
         </div>
+
         <div class="col-md-2" align="right">
             <button type="button" name="add" id="addDomain" class="btn btn-success">Load csv</button>
+        </div>
+
+        <div class="col-md-2" align="right">
+            @if ($domains ?? '')
+                <span style="color: #2a9055">Parsed: {{ $parseSuccess }}</span> / <span style="color: #c51f1a"> Error: {{ $parseError }}</span><br>
+                Total: {{ $domains->total() }}
+            @endif
         </div>
     </div>
     <div class="row" style="margin-bottom: 50px;">
@@ -81,7 +91,7 @@
                                     <td style="background-color: white">
                                         @foreach([0,128,255] as $color )
                                             <a href="{{ route('download_logo', ['url' => urlencode($logo), 'color' => $color,  'name' => $domain ]) }}">
-                                                <img src="{{ route('get_logo', ['url' => urlencode($logo), 'color' => $color ]) }}" style="max-width: 400px;"><br>
+                                                <img src="{{ route('get_logo', ['url' => urlencode($logo), 'color' => $color ]) }}" style="max-width: 560px;"><br>
                                             </a>
                                             <br>
                                         @endforeach

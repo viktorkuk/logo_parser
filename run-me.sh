@@ -1,4 +1,4 @@
-docker-compose -f docker-compose.yml up -d
+docker-compose -f docker-compose.yml up -d --build
 
 docker-compose run --rm composer install
 docker-compose run --rm artisan migrate

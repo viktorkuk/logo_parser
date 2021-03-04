@@ -21,12 +21,12 @@ class LogoMakerService
     {
         $smallMode = false;
 
-        /*$image = imagecreatefromstring(
+        $image = imagecreatefromstring(
             file_get_contents($srcUrl)
             //Http::get('https://' . $srcUrl)->body()
-        );*/
+        );
 
-        $fileType = strtolower(substr($srcUrl, strlen($srcUrl)-3));
+        /*$fileType = strtolower(substr($srcUrl, strlen($srcUrl)-3));
         switch($fileType) {
             case('gif'):
                 $image = imagecreatefromgif($srcUrl);
@@ -42,9 +42,7 @@ class LogoMakerService
 
             //imagealphablending($image, true);
             //imagejpeg($image);die();
-
-
-        }
+        }*/
 
         //imagealphablending($image, FALSE);
         imagesavealpha($image, TRUE);

@@ -45,6 +45,7 @@ class LogoParserService
             $content = $this->getContentByDomain($domain, $isHttps);
 
             if (!$content) {
+                Cache::increment('parse_error');
                 return [];
             }
 
@@ -64,6 +65,7 @@ class LogoParserService
                 }
             }
 
+            Cache::increment('parse_success');
             return $imgSrc;
         });
     }
