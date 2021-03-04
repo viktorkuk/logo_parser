@@ -1,0 +1,72 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ParserController;
+use App\Http\Controllers\LogoController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+/*Route::get('/', function () {
+    return view('welcome');
+});*/
+
+
+Route::get('/',
+    [ParserController::class, 'index']
+)->name('home');
+
+
+Route::post('/csv_upload',
+    [ParserController::class, 'uploadCsv']
+)->name('parser_csv_upload');
+
+
+Route::get('/get_logo',
+    [LogoController::class, 'make']
+)->name('get_logo');
+
+Route::get('/download_logo',
+    [LogoController::class, 'download']
+)->name('download_logo');
+
+
+
+
+
+
+/*
+Route::get('/click/',
+    [ClickController::class, 'recordClick']
+)->name('record_click');
+
+Route::get('/', function () {
+    return view('clicks');
+});
+
+Route::get('/test/', function () {
+    return view('click_success');
+});
+
+#/succes/ID_CLICK
+#/error/ID_CLICK
+
+Route::get('/success/{hash?}', function () {
+    return view('click_success');
+})->name('click_success');
+
+Route::get('/error/{hash?}', function () {
+    return view('click_error');
+})->name('click_error');
+
+
+*/
+
