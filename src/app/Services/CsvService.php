@@ -21,7 +21,13 @@ class CsvService
 
     public function getData()
     {
-        return explode("\n",Storage::get('csv/domain.csv'));
+        $path = 'csv/domain.csv';
+
+        if (!Storage::exists($path) ) {
+            return [];
+        }
+
+        return explode("\n",Storage:: get('csv/domain.csv'));
     }
 
     public function getPaginateData($page = 1, $perPage = 20)
