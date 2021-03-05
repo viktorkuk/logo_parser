@@ -25,4 +25,9 @@ RUN apk --no-cache update \
 
 RUN php -r 'var_dump(gd_info());'
 
-#RUN apk add --no-cache freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev docker-php-ext-configure gd
+
+ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
+
+RUN chmod uga+x /usr/local/bin/install-php-extensions && sync && \
+    install-php-extensions imagick
+

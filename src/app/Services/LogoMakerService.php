@@ -18,6 +18,8 @@ class LogoMakerService
     const SMALL_IMAGE_HEIGHT = 132;
     const SMALL_PADDING = 5;
 
+
+
     public function makeLogo(string $srcUrl, int $backgroundColor)
     {
         $smallMode = false;
@@ -97,7 +99,7 @@ class LogoMakerService
         $color = imagecolorallocatealpha($newImage, $backgroundColor, $backgroundColor, $backgroundColor, 0);
         imagefill($newImage, 0, 0, $color);
 
-        $this->imagecopymerge_alpha (
+        $this->imageCopyMergeAlpha (
             $newImage,
             $image,
             ($destW - $sourceW)/2,
@@ -118,8 +120,6 @@ class LogoMakerService
         imageDestroy($newImage);
 
         return $imagevar;
-
-        //imagepng($imagevar);
     }
 
     private function createThumbnail($image, $newMaxWidth, $newMaxHeight)
@@ -146,7 +146,11 @@ class LogoMakerService
         return $dst_img;
     }
 
-    private function imagecopymerge_alpha($dst_im, $src_im, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $pct)
+
+
+
+
+    private function imageCopyMergeAlpha($dst_im, $src_im, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $pct)
     {
         if(!isset($pct)){
             return false;
@@ -188,6 +192,63 @@ class LogoMakerService
         }
         // The image copy
         imagecopy($dst_im, $src_im, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h);
+    }
+
+
+    public function __makeLogoNew(string $srcUrl, int $backgroundColor)
+    {
+        $img = new Imagick();
+        $imageStr = file_get_contents($srcUrl);
+        $img->readImageBlob($imageStr);
+        $size = $img->getSize();
+        $imageW = $size['columns'];
+        $imageH = $size['rows'];
+
+        var_dump($size); die();
+
+        header("Content-Type: image/png"); echo $img->getImageBlob(); die();
+
+        if (
+            $imageW > ( self::LARGE_IMAGE_WIDTH - self::LARGE_PADDING) ||
+            $imageH > ( self::LARGE_IMAGE_HEIGHT - self::LARGE_PADDING)
+        )
+        {
+            /*$image = $this->createThumbnail(
+                $image,
+                self::LARGE_IMAGE_WIDTH - self::LARGE_PADDING,
+                self::LARGE_IMAGE_HEIGHT - self::LARGE_PADDING
+            );*/
+
+            $img->resizeImage(320,240,Imagick::FILTER_LANCZOS,1);
+
+        } elseif (
+        (
+            $imageW < ( self::SMALL_IMAGE_WIDTH - self::SMALL_PADDING) &&
+            $imageH < ( self::SMALL_IMAGE_HEIGHT - self::SMALL_PADDING)
+        )
+        ) {
+            $smallMode = true;
+        }
+
+        $img->setImageFormat("png24");
+    }
+
+    private function __imageCopyMergeAlpha($dst_im, $src_im, $dst_x, $dst_y)
+    {
+        $im1 = new Imagick();
+        $im1->readImageBlob($dst_im);
+        $im1->setImageFormat("png24");
+
+        $im2 = new Imagick();
+        $im2->readImageBlob($dst_im);
+        $im2->setImageFormat("$src_im");
+
+        $im1->setImageVirtualPixelMethod(Imagick::VIRTUALPIXELMETHOD_TRANSPARENT);
+        $im1->setImageArtifact('compose:args', "1,0,-0.5,0.5");
+
+        $im1->compositeImage($im2, Imagick::COMPOSITE_MATHEMATICS, $dst_x, $dst_y);
+
+        return $im1->getimageblob();
     }
 
 
