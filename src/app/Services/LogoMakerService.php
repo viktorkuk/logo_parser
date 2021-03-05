@@ -146,10 +146,6 @@ class LogoMakerService
         return $dst_img;
     }
 
-
-
-
-
     private function imageCopyMergeAlpha($dst_im, $src_im, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $pct)
     {
         if(!isset($pct)){
