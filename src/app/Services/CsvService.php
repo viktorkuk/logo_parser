@@ -30,10 +30,22 @@ class CsvService
         $domains = explode("\n",Storage:: get('csv/domain.csv'));
 
         foreach ($domains as $key => $domain) {
+
+            //$domain = urldecode($domain);
+
+            if (empty($domain)) {
+                unset($domains[$key]);
+                continue;
+            }
+
             if (strpos($domain,'http') === 0) {
-                $domains[$key] = parse_url ( $domain, PHP_URL_HOST);
+                $domains[$key] = parse_url( $domain, PHP_URL_HOST);
+            } else {
+                $domains[$key] = trim($domain);
             }
         }
+
+        //echo '<pre>'; var_dump($domains); echo '</pre>';
 
         return $domains;
     }

@@ -9,6 +9,7 @@ use \Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Log;
 use simplehtmldom\HtmlDocument;
 use Illuminate\Support\Facades\Cache;
+use \GuzzleHttp\Client;
 
 class LogoParserService
 {
@@ -16,7 +17,7 @@ class LogoParserService
 
     /*public function __construct(HttpClientInterface $client)
     {
-        $this->client = $client;
+        $this->client =  Client();
     }*/
 
 
@@ -72,20 +73,25 @@ class LogoParserService
 
     private function getContentByDomain($domain, &$isHttps = true): string
     {
+
+        $client =  new Client();
         $htmlContent = '';
 
         try {
-            $htmlContent = Http::get('https://' . $domain)->body();
+            //$htmlContent = Http::get('http://' . $domain)->body();
+            $htmlContent = $client->request('GET', 'http://' . $domain)->getBody();
+        } catch (\Exception $e){
+            Log::debug('Exception: '.$e->getMessage());
         }
-        catch (\Exception $e){}
 
         if (!$htmlContent) {
             $isHttps = false;
             try {
-                $htmlContent = Http::get('http://' . $domain)->body();
-
+                //$htmlContent = Http::get('https://' . $domain)->body();
+                $htmlContent = $client->request('GET', 'https://' . $domain)->getBody();
+            } catch (\Exception $e){
+                Log::debug('Exception: '.$e->getMessage());
             }
-            catch (\Exception $e){}
         }
 
         return $htmlContent;
