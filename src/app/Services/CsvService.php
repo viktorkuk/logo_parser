@@ -27,7 +27,15 @@ class CsvService
             return [];
         }
 
-        return explode("\n",Storage:: get('csv/domain.csv'));
+        $domains = explode("\n",Storage:: get('csv/domain.csv'));
+
+        foreach ($domains as $key => $domain) {
+            if (strpos($domain,'http') === 0) {
+                $domains[$key] = parse_url ( $domain, PHP_URL_HOST);
+            }
+        }
+
+        return $domains;
     }
 
     public function getPaginateData($page = 1, $perPage = 20)

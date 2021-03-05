@@ -5,6 +5,7 @@ namespace App\Services;
 
 
 use Illuminate\Support\Facades\Http;
+use Imagick;
 
 class LogoMakerService
 {
@@ -20,13 +21,26 @@ class LogoMakerService
     public function makeLogo(string $srcUrl, int $backgroundColor)
     {
         $smallMode = false;
+        $fileType = strtolower(substr($srcUrl, strlen($srcUrl)-3));
+        $imageStr = file_get_contents($srcUrl);
 
-        $image = imagecreatefromstring(
-            file_get_contents($srcUrl)
+        if ($fileType == 'svg') {
+            $im = new Imagick();
+            $im->readImageBlob($imageStr);
+            $im->setImageFormat("png24");
+            $imageStr = $im->getimageblob();
+        }
+
+        //echo $imageStr; die();
+
+        $image = imagecreatefromstring( $imageStr
+            //file_get_contents($imageStr)
             //Http::get('https://' . $srcUrl)->body()
         );
 
-        /*$fileType = strtolower(substr($srcUrl, strlen($srcUrl)-3));
+
+
+        /*
         switch($fileType) {
             case('gif'):
                 $image = imagecreatefromgif($srcUrl);
