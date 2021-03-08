@@ -4,7 +4,7 @@ networks:
   laravel:
 
 services:
-  site:
+  nginx:
     build:
       context: .
       dockerfile: nginx.dockerfile
