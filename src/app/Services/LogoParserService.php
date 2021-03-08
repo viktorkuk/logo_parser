@@ -79,7 +79,7 @@ class LogoParserService
 
         try {
             //$htmlContent = Http::get('http://' . $domain)->body();
-            $htmlContent = $client->request('GET', 'http://' . $domain)->getBody();
+            $htmlContent = $client->request('GET', 'https://' . $domain)->getBody();
         } catch (\Exception $e){
             Log::debug('Exception: '.$e->getMessage());
         }
@@ -88,7 +88,7 @@ class LogoParserService
             $isHttps = false;
             try {
                 //$htmlContent = Http::get('https://' . $domain)->body();
-                $htmlContent = $client->request('GET', 'https://' . $domain)->getBody();
+                $htmlContent = $client->request('GET', 'http://' . $domain)->getBody();
             } catch (\Exception $e){
                 Log::debug('Exception: '.$e->getMessage());
             }
