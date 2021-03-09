@@ -1,39 +1,72 @@
 $(document).ready(function() {
 
-    let domains = [];
+    //let domains = [];
+    const imageRenderColors = [0,128,255];
+    const arrayChank = 10;
+
+
     $.ajax({
-        url:"/api/domain/"+id,
-        method:"DELETE",
+        url:"/api/domains",
+        method: "GET",
         success:function(data) {
-            domains = data;
-            console.log(domains);
+            loadLogos(data);
+            console.log(data);
         },
         error:function() {
             alert("Load logos error");
         }
     })
 
-
-
-    /*$("#domain-table").on('click', '.delete', function(){
-        let id = domainTable.row( $(this).parents('tr') ).data().id;
-        if(confirm("Are you sure you want to delete this domain?")) {
+    function loadLogos(data) {
+        data.forEach(function (domain, key) {
             $.ajax({
-                url:"/api/domain/"+id,
-                method:"DELETE",
-                success:function(data) {
-                    resetForm();
-                    domainTable.ajax.reload(null, false );
+                url:"/api/logos/" + encodeURI(domain),
+                method: "GET",
+                success:function(images) {
+                    console.log(domain, images);
+                    renderResults(domain, images);
                 },
                 error:function() {
-                    resetForm();
-                    alert( "Delete error" );
+                    console.log("Load logos error for: ".domain);
                 }
             })
+        });
+    }
+
+    function renderResults(domain, images) {
+
+        let clone = $('#item_blueprint').clone();
+        let itemId = "#item_" + domain;
+        clone.attr('id', itemId);
+        clone.find('.domain_link').attr('href', domain).html(domain);
+        clone.find('.image_table_cont').html('');
+        if (images.length) {
+            images.forEach(function (item, key) {
+                let table = $('#item_blueprint .image_table').clone();
+                table.find('.logo_type').html(item.type);
+                table.find('.logo_src').attr('src', item.src);
+
+
+                table.find('.imageList').html('');
+
+                imageRenderColors.forEach(function (color) {
+                    let renderCont = $('#item_blueprint #logo_parsed_image_cont').clone();
+                    renderCont.attr('id','');
+                    renderCont.find('.logo_parsed_image_link').attr('href', '/download_logo?url=' + item.src + '&color=' + color + '&name=' + domain);
+                    renderCont.find('.logo_parsed_image_src').attr('src', '/get_logo?url=' + item.src + '&color=' + color);
+                    table.find('.imageList').append(renderCont);
+                })
+
+                clone.find('.image_table_cont').append(table);
+            });
         } else {
-            return false;
+            clone.find('.image_table_cont').hide();
+            clone.find('.no_images').show();
         }
-    });*/
+
+        $('#domains_list').append(clone).fadeIn(1000);;
+        //$(itemId)
+    }
 
     $('#addDomain').click(function(){
         $('#domainModal').modal('show');

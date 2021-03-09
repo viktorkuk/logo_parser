@@ -58,7 +58,7 @@ class LogoParserService
             foreach (self::SEARCH_NODES as $node) {
                 $imgSrc = array_merge($imgSrc, $this->findImagesInChild($htmlDom, $node));
             }
-            $imgSrc = array_unique($imgSrc);
+            $imgSrc = array_values(array_unique($imgSrc));
 
 
             foreach ($imgSrc as $key => $imgUrl) {

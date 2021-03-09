@@ -24,7 +24,6 @@ Route::get('/',
     [ParserController::class, 'index']
 )->name('home');
 
-
 Route::post('/csv_upload',
     [ParserController::class, 'uploadCsv']
 )->name('parser_csv_upload');

@@ -30,19 +30,19 @@ class ParserController extends Controller
 
     public function index(Request $request)
     {
-        $domains = $this->csvService->getPaginateData($request->get('page', 1));
+        /*$domains = $this->csvService->getPaginateData($request->get('page', 1));
 
         //echo '<pre>'; var_dump($domains->toArray());die();
 
         if ($domains) {
             $domainLogos = $this->logoParserService->findLogos($domains->toArray()['data']);
-        }
+        }*/
 
         return View::make(
             'logos',
             [
-                'domains' => $domains,
-                'domainLogos' => $domainLogos,
+                //domains' => $domains,
+                //'domainLogos' => $domainLogos,
                 'parseError' => Cache::get('parse_error') ?: 0,
                 'parseSuccess' => Cache::get('parse_success') ?: 0
             ]

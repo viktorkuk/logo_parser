@@ -67,7 +67,12 @@
             @endif
         </div>
     </div>
-    <div class="row" style="margin-bottom: 50px;">
+    <div class="row" id="domains_list" style="">
+        <!-- Ajax content here -->
+    </div>
+
+
+    {{--<div class="row" style="margin-bottom: 50px;">
         @if ($domainLogos ?? '')
             <div class="col-12">
                 {{ $domains->links() }}
@@ -123,9 +128,47 @@
             <div class="col-12">
                 <h2>Load some csv data first!</h2>
             </div>
-        @endif
+        @endif --}}
 
 
+        <div style="display: none" class="">
+            <div class="col-12"  style="margin-bottom: 50px;" id="item_blueprint">
+                <h1><a class="domain_link" target="_blank" href=""></a></h1>
+                <div class="image_table_cont">
+                    <table  class="table table-striped image_table" style="width:100%">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th colspan="3">Original</th>
+                            </tr>
+                            </thead>
+                            <tbody >
+                            <tr>
+                                <td colspan="3" style="align-content: center; background-color: #888888;">
+                                    <h3>Type: <span class="logo_type"></span></h3>
+                                    <img class="logo_src" src="" style="max-width: 1050px;">
+                                </td>
+                            </tr>
+                            </tbody>
+                            <thead class="thead-light">
+                            <tr>
+                                <th colspan="3">Converted</th>
+                            </tr>
+                            </thead>
+                            <tr class="imageList">
+                                <td style="background-color: white" id="logo_parsed_image_cont">
+                                    <a class="logo_parsed_image_link" href="">
+                                        <img class="logo_parsed_image_src" src="" style="max-width: 350px; border: #c51f1a 1px solid;"><br>
+                                    </a>
+                                    <br>
+                                </td>
+                            </tr>
+                    </table>
+                </div>
+                <div class="col-md-12 no_images" style="display: none;">
+                    <h3>No content</h3>
+                </div>
+            </div>
+        </div>
 </div>
 
 
