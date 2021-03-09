@@ -76,29 +76,35 @@
                 <div class="col-12"  style="margin-bottom: 50px;">
                     <h2><a target="_blank" href="http://{{ $domain }}">{{ $domain }}</a></h2>
                     <table  class="table table-striped" style="width:100%">
+                        @foreach ($logos as $logo)
                         <thead class="thead-dark">
                             <tr>
-                                <th>Original</th>
-                                <th>Converted</th>
+                                <th colspan="3">Original</th>
                             </tr>
                         </thead>
                         <tbody >
-                                @foreach ($logos as $logo)
-                                <tr>
-                                    <td style="background-color: #7c8386;" >
-                                        <img src="{{ $logo }}" style="max-width: 400px;">
-                                    </td>
-                                    <td style="background-color: white">
-                                        @foreach([0,128,255] as $color )
-                                            <a href="{{ route('download_logo', ['url' => urlencode($logo), 'color' => $color,  'name' => $domain ]) }}">
-                                                <img src="{{ route('get_logo', ['url' => urlencode($logo), 'color' => $color ]) }}" style="max-width: 560px;"><br>
-                                            </a>
-                                            <br>
-                                        @endforeach
-                                    </td>
-                                </tr>
-                                @endforeach
+                            <tr>
+                                <td colspan="3" style="align-content: center; background-color: #888888;">
+                                    <img src="{{ $logo }}" style="max-width: 1050px;">
+                                </td>
+                            </tr>
                         </tbody>
+                        <thead class="thead-light">
+                        <tr>
+                            <th colspan="3">Converted</th>
+                        </tr>
+                        </thead>
+                            <tr>
+                                @foreach([0,128,255] as $color )
+                                    <td style="background-color: white">
+                                        <a href="{{ route('download_logo', ['url' => urlencode($logo), 'color' => $color,  'name' => $domain ]) }}">
+                                            <img src="{{ route('get_logo', ['url' => urlencode($logo), 'color' => $color ]) }}" style="max-width: 350px; border: #c51f1a 1px solid;"><br>
+                                        </a>
+                                        <br>
+                                    </td>
+                                @endforeach
+                            </tr>
+                        @endforeach
                     </table>
                 </div>
             @endforeach

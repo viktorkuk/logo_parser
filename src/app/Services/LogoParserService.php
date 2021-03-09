@@ -59,7 +59,7 @@ class LogoParserService
             }
             $imgSrc = array_unique($imgSrc);
 
-            //fix reletive to absolute
+            //convert reletive urls to absolute
             foreach ($imgSrc as $key => $imgUrl) {
                 if (substr($imgUrl, 0, 4) != 'http') {
                     $imgSrc[$key] = ($isHttps ? 'https' : 'http') . '://' . $domain . (substr($imgUrl, 0, 1) != '/' ? '/' : '' ) . $imgUrl;

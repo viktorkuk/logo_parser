@@ -41,32 +41,3 @@ Route::get('/download_logo',
 
 
 
-
-
-/*
-Route::get('/click/',
-    [ClickController::class, 'recordClick']
-)->name('record_click');
-
-Route::get('/', function () {
-    return view('clicks');
-});
-
-Route::get('/test/', function () {
-    return view('click_success');
-});
-
-#/succes/ID_CLICK
-#/error/ID_CLICK
-
-Route::get('/success/{hash?}', function () {
-    return view('click_success');
-})->name('click_success');
-
-Route::get('/error/{hash?}', function () {
-    return view('click_error');
-})->name('click_error');
-
-
-*/
-

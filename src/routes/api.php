@@ -2,8 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\ClickController;
-use \App\Http\Controllers\BadDomainController;
+use App\Http\Controllers\ParserController;
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,22 +21,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });*/
 
 
-Route::get('/clicks', [ClickController::class, 'index']);
-Route::get('/click/{id}',  [ClickController::class, 'get']);
+Route::get('/domains',
+    [ParserController::class, 'getDomains']
+)->name('get_domains');
 
-Route::post('/click',  [ClickController::class, 'create']);
-Route::put('/click/{id}', [ClickController::class, 'update']);
+Route::get('/logos/{domain}',
+    [ParserController::class, 'findLogos']
+)->name('get_logos');
 
-Route::delete('/click/{id}', [ClickController::class, 'delete']);
 
 
-Route::get('/domains', [BadDomainController::class, 'index']);
-Route::get('/domain/{id}',  [BadDomainController::class, 'get']);
 
-Route::post('/domain',  [BadDomainController::class, 'create']);
-Route::put('/domain/{id}', [BadDomainController::class, 'update']);
 
-Route::delete('/domain/{id}', [BadDomainController::class, 'delete']);
 
 
 

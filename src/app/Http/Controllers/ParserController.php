@@ -49,6 +49,19 @@ class ParserController extends Controller
         );
     }
 
+
+    //API
+    public function getDomains()
+    {
+        return $this->csvService->getData();
+    }
+
+    public function findLogos($domain)
+    {
+        return $this->logoParserService->findLogo(urldecode($domain));
+    }
+
+
     public function uploadCsv(UploadCsvRequest $request)
     {
         if( !$request->validated() ) {
