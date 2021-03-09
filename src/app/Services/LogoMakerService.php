@@ -23,7 +23,7 @@ class LogoMakerService
     public function makeLogo(string $srcUrl, int $backgroundColor)
     {
         $smallMode = false;
-        $fileType = strtolower(substr($srcUrl, strlen($srcUrl)-3));
+        $fileType = strtolower(substr($srcUrl, strrpos($srcUrl, '.')+1, 3));
         $imageStr = file_get_contents($srcUrl);
 
         if ($fileType == 'svg') {

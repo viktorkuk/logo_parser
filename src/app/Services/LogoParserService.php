@@ -41,6 +41,7 @@ class LogoParserService
         return Cache::remember($domain.'_img', 86400, function () use ($domain)  {
 
             $imgSrc = [];
+            $imgData = [];
             $isHttps = true;
 
             $content = $this->getContentByDomain($domain, $isHttps);
@@ -59,15 +60,21 @@ class LogoParserService
             }
             $imgSrc = array_unique($imgSrc);
 
-            //convert reletive urls to absolute
+
             foreach ($imgSrc as $key => $imgUrl) {
+
+                //add file type
+                $imgData[$key]['type'] = strtolower(substr($imgUrl, strrpos($imgUrl, '.')+1, 3));
+                //convert reletive urls to absolute
                 if (substr($imgUrl, 0, 4) != 'http') {
-                    $imgSrc[$key] = ($isHttps ? 'https' : 'http') . '://' . $domain . (substr($imgUrl, 0, 1) != '/' ? '/' : '' ) . $imgUrl;
+                    $imgData[$key]['src'] = ($isHttps ? 'https' : 'http') . '://' . $domain . (substr($imgUrl, 0, 1) != '/' ? '/' : '' ) . $imgUrl;
+                } else {
+                    $imgData[$key]['src'] = $imgUrl;
                 }
             }
 
             Cache::increment('parse_success');
-            return $imgSrc;
+            return $imgData;
         });
     }
 

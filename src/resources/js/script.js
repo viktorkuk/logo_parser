@@ -1,48 +1,21 @@
 $(document).ready(function() {
-    /*const clicksTable = $('#clicks-table').DataTable( {
-        "ajax": {
-            "url": "/api/clicks/",
-            "dataSrc": ""
+
+    let domains = [];
+    $.ajax({
+        url:"/api/domain/"+id,
+        method:"DELETE",
+        success:function(data) {
+            domains = data;
+            console.log(domains);
         },
-
-        "columns": [
-            { "data": "id" },
-            { "data": "ua" },
-            { "data": "ip" },
-            { "data": "ref" },
-            { "data": "param1" },
-            { "data": "param2" },
-            { "data": "error" },
-            { "data": "bad_domain" }
-        ]
-    } );
-
-    const domainTable = $('#domain-table').DataTable( {
-        "ajax": {
-            "url": "/api/domains/",
-            "dataSrc": ""
-        },
-        "columns": [
-            { "data": "id" },
-            { "data": "name" },
-            {
-                "data": null,
-                "defaultContent": '<button type="button" name="delete" class="btn btn-danger btn-xs delete">Delete</button>',
-                "className": 'dt-body-right',
-                "orderable":false,
-            },
-        ],
-    } );
-
-    setInterval( function () {
-        clicksTable.ajax.reload(null, false );
-    }, 5000 );*/
+        error:function() {
+            alert("Load logos error");
+        }
+    })
 
 
 
-
-
-    $("#domain-table").on('click', '.delete', function(){
+    /*$("#domain-table").on('click', '.delete', function(){
         let id = domainTable.row( $(this).parents('tr') ).data().id;
         if(confirm("Are you sure you want to delete this domain?")) {
             $.ajax({
@@ -60,7 +33,7 @@ $(document).ready(function() {
         } else {
             return false;
         }
-    });
+    });*/
 
     $('#addDomain').click(function(){
         $('#domainModal').modal('show');
