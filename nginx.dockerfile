@@ -2,9 +2,8 @@ FROM nginx:stable-alpine
 
 ADD ./nginx/nginx.conf /etc/nginx/nginx.conf
 ADD ./nginx/default.conf /etc/nginx/conf.d/default.conf
-ADD ./nginx/htpasswds /etc/nginx/htpasswds
-
-RUN chmod 644 -R /etc/nginx/htpasswds
+ADD ./nginx/.htpasswd /etc/nginx/.htpasswd
+RUN chmod 644 /etc/nginx/.htpasswd
 
 RUN mkdir -p /var/www/html
 
