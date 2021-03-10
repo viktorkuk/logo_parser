@@ -38,7 +38,7 @@ $(document).ready(function() {
         let clone = $('#item_blueprint').clone();
         let itemId = "#item_" + domain;
         clone.attr('id', itemId);
-        clone.find('.domain_link').attr('href', domain).html('http://'+domain);
+        clone.find('.domain_link').attr('href', 'http://'+domain).html(domain);
         clone.find('.image_table_cont').html('');
         if (images.length) {
             images.forEach(function (item, key) {
