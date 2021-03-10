@@ -37,8 +37,9 @@ class LogoParserService
 
     public function findLogo($domain): array
     {
-
         return Cache::remember($domain.'_img', 86400, function () use ($domain)  {
+
+            Cache::increment('parse_total');
 
             $imgSrc = [];
             $imgData = [];

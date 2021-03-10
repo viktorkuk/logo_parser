@@ -4,18 +4,35 @@ $(document).ready(function() {
     const imageRenderColors = [0,128,255];
     const arrayChank = 10;
 
+    loadDomains();
+    updateStat();
 
-    $.ajax({
-        url:"/api/domains",
-        method: "GET",
-        success:function(data) {
-            loadLogos(data);
-            console.log(data);
-        },
-        error:function() {
-            alert("Load logos error");
-        }
-    })
+    function loadDomains() {
+        $.ajax({
+            url: "/api/domains",
+            method: "GET",
+            success: function (data) {
+                loadLogos(data);
+                console.log(data);
+            },
+            error: function () {
+                alert("Load logos error");
+            }
+        });
+    }
+
+    function updateStat() {
+        $.ajax({
+            url:"/api/stat",
+            method: "GET",
+            success:function(data) {
+                for (const [key, metric] of Object.entries(data)) {
+                    console.log(`${key}: ${metric}`);
+                    $('#parse_' + key).html(metric);
+                }
+            }
+        })
+    }
 
     function loadLogos(data) {
         data.forEach(function (domain, key) {
@@ -25,12 +42,14 @@ $(document).ready(function() {
                 success:function(images) {
                     console.log(domain, images);
                     renderResults(domain, images);
+                    updateStat();
                 },
                 error:function() {
                     console.log("Load logos error for: ".domain);
                 }
             })
         });
+
     }
 
     function renderResults(domain, images) {
@@ -64,7 +83,7 @@ $(document).ready(function() {
             clone.find('.no_images').show();
         }
 
-        $('#domains_list').append(clone).fadeIn(1000);;
+        $('#domains_list').append(clone).fadeIn(1000);
         //$(itemId)
     }
 

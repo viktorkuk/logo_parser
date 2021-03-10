@@ -49,6 +49,15 @@ class ParserController extends Controller
         );
     }
 
+    public function getMetrics()
+    {
+        return [
+            'error' => Cache::get('parse_error') ?: 0,
+            'success' => Cache::get('parse_success') ?: 0,
+            'total' => Cache::get('parse_total') ?: 0,
+        ];
+    }
+
 
     //API
     public function getDomains()

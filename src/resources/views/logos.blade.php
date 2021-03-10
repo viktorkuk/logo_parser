@@ -61,10 +61,8 @@
         </div>
 
         <div class="col-md-2" align="right">
-            @if ($domains ?? '')
-                <span style="color: #2a9055">Parsed: {{ $parseSuccess }}</span> / <span style="color: #c51f1a"> Error: {{ $parseError }}</span><br>
-                Total: {{ $domains->total() }}
-            @endif
+            <span style="color: #2a9055">Parsed: <span id="parse_success">0</span></span> / <span style="color: #c51f1a"> Error: <span id="parse_error">0</span></span><br>
+            Total: <span id="parse_total">0</span> / CSV: <span id="parse_csv">0</span>
         </div>
     </div>
     <div class="row" id="domains_list" style="">

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ParserController;
+use App\Http\Controllers\ApiController;
 
 
 /*
@@ -22,11 +23,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::get('/domains',
-    [ParserController::class, 'getDomains']
+    [ApiController::class, 'getDomains']
 )->name('get_domains');
 
 Route::get('/logos/{domain}',
-    [ParserController::class, 'findLogos']
+    [ApiController::class, 'findLogos']
+)->name('get_logos');
+
+Route::get('/stat',
+    [ApiController::class, 'getMetrics']
 )->name('get_logos');
 
 

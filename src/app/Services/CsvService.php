@@ -7,6 +7,7 @@ use \Storage;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 
 
 class CsvService
@@ -23,31 +24,33 @@ class CsvService
     {
         $path = 'csv/domain.csv';
 
-        if (!Storage::exists($path) ) {
-            return [];
-        }
-
-        $domains = explode("\n",Storage:: get('csv/domain.csv'));
-
-        foreach ($domains as $key => $domain) {
-
-            //$domain = urldecode($domain);
-
-            if (empty($domain)) {
-                unset($domains[$key]);
-                continue;
+        return Cache::remember('domain_csv', 86400, function () use ($path) {
+            if (!Storage::exists($path)) {
+                return [];
             }
 
-            if (strpos($domain,'http') === 0) {
-                $domains[$key] = parse_url( $domain, PHP_URL_HOST);
-            } else {
-                $domains[$key] = trim($domain);
+            $domains = array_unique(explode("\n", Storage:: get('csv/domain.csv')));
+
+            Cache::add('parse_csv', count($domains));
+
+            foreach ($domains as $key => $domain) {
+
+                //$domain = urldecode($domain);
+
+                if (empty($domain)) {
+                    unset($domains[$key]);
+                    continue;
+                }
+
+                if (strpos($domain, 'http') === 0) {
+                    $domains[$key] = parse_url($domain, PHP_URL_HOST);
+                } else {
+                    $domains[$key] = trim($domain);
+                }
             }
-        }
 
-        //echo '<pre>'; var_dump($domains); echo '</pre>';
-
-        return $domains;
+            return $domains;
+        });
     }
 
     public function getPaginateData($page = 1, $perPage = 20)
