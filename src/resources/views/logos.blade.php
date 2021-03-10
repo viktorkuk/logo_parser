@@ -58,6 +58,7 @@
 
         <div class="col-md-2" align="right">
             <button type="button" name="add" id="addDomain" class="btn btn-success">Load csv</button>
+            <button type="button" onclick="location.href='{{ route('reset') }}'" class="btn btn-danger">Reset</button>
         </div>
 
         <div class="col-md-2" align="right">

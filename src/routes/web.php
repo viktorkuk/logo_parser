@@ -24,6 +24,10 @@ Route::get('/',
     [ParserController::class, 'index']
 )->name('home');
 
+Route::get('/reset',
+    [ParserController::class, 'reset']
+)->name('reset');
+
 Route::post('/csv_upload',
     [ParserController::class, 'uploadCsv']
 )->name('parser_csv_upload');
@@ -36,6 +40,7 @@ Route::get('/get_logo',
 Route::get('/download_logo',
     [LogoController::class, 'download']
 )->name('download_logo');
+
 
 
 

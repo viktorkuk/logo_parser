@@ -12,17 +12,19 @@ use Illuminate\Support\Facades\Cache;
 
 class CsvService
 {
+    public string $path = 'csv/domain.csv';
 
-    public function upload()
+
+    public function upload(): void
     {
         /*$path = Storage::putFileAs(
             'avatars', $request->file('avatar'), $request->user()->id
         );*/
     }
 
-    public function getData()
+    public function getData(): array
     {
-        $path = 'csv/domain.csv';
+        $path = $this->path;
 
         return Cache::remember('domain_csv', 86400, function () use ($path) {
             if (!Storage::exists($path)) {
@@ -53,13 +55,19 @@ class CsvService
         });
     }
 
-    public function getPaginateData($page = 1, $perPage = 20)
+    public function getPaginateData($page = 1, $perPage = 20): LengthAwarePaginator
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
         $items = Collection::make(
             $this->getData()
         );
         return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, []);
+    }
+
+    public function resetData(): void
+    {
+        Cache::flush();
+        Storage::delete($this->path);
     }
 
 }

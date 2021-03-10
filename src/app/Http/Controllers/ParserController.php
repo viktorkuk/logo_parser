@@ -88,4 +88,10 @@ class ParserController extends Controller
         return Redirect::home();
     }
 
+    public function reset()
+    {
+        $this->csvService->resetData();
+        return Redirect::home()->withErrors('message', 'File and cache reseted!');
+    }
+
 }
