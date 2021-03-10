@@ -10,8 +10,9 @@ services:
       dockerfile: nginx.dockerfile
     container_name: nginx
     ports:
-      - "8080:80"
-      - "8443:443"
+      - "80:80"
+      - "443:443"
+#     - "8888:80"
     volumes:
       - ./src:/var/www/html:delegated
       - ./data/certbot/conf:/etc/letsencrypt
