@@ -113,8 +113,8 @@ class LogoParserService
 
         foreach ($elements as $element) {
             if (
-                (!empty($element->class) && strpos($element->class, 'logo') !== false) ||
-                (!empty($element->id) && strpos(strtolower($element->id, 'logo')) !== false))
+                (!empty($element->class) && strpos(strtolower($element->class), 'logo') !== false) ||
+                (!empty($element->id) && strpos(strtolower($element->id), 'logo') !== false))
             {
                 $imgs = $element->find('img');
                 foreach ($imgs as $img) {
@@ -133,7 +133,7 @@ class LogoParserService
         $elements = $htmlDom->find('img');
         foreach ($elements as $element) {
             if (
-                (!empty($element->class) && strpos($element->class, 'logo') !== false) ||
+                (!empty($element->class) && strpos(strtolower($element->class), 'logo') !== false) ||
                 (!empty($element->id) && strpos(strtolower($element->id), 'logo') !== false) ||
                 (!empty($element->alt) && strpos(strtolower($element->alt), 'logo') !== false) ||
                 (!empty($element->title) && strpos(strtolower($element->title), 'logo') !== false)
