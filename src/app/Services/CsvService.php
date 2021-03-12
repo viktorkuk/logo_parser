@@ -51,7 +51,7 @@ class CsvService
                 }
             }
 
-            return $domains;
+            return array_values($domains);
         });
     }
 

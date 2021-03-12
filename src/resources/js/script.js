@@ -40,7 +40,8 @@ $(document).ready(function() {
     }
 
     function loadLogos(data) {
-        data.forEach(function (domain, key) {
+        //data.forEach(function (domain, key) {
+        for (const [key, domain] of Object.entries(data)) {
             $.ajax({
                 url:"/api/logos/" + encodeURI(domain),
                 method: "GET",
@@ -53,8 +54,7 @@ $(document).ready(function() {
                     console.log("Load logos error for: ".domain);
                 }
             })
-        });
-
+        }
     }
 
     function renderResults(domain, images) {
