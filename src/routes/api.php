@@ -20,19 +20,24 @@ use App\Http\Controllers\ApiController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
+Route::group(['middleware' => 'throttle:500:1'], function () {
+    Route::get('/domains',
+        [ApiController::class, 'getDomains']
+    )->name('get_domains');
+
+    Route::get('/stat',
+        [ApiController::class, 'getMetrics']
+    )->name('get_logos');
+});
+
+Route::group(['middleware' => 'throttle:200:1'], function () {
+    Route::get('/logos/{domain}',
+        [ApiController::class, 'findLogos']
+    )->name('get_logos');
+});
 
 
-Route::get('/domains',
-    [ApiController::class, 'getDomains']
-)->name('get_domains');
 
-Route::get('/logos/{domain}',
-    [ApiController::class, 'findLogos']
-)->name('get_logos');
-
-Route::get('/stat',
-    [ApiController::class, 'getMetrics']
-)->name('get_logos');
 
 
 

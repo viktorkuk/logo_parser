@@ -71,8 +71,8 @@ $(document).ready(function() {
                 imageRenderColors.forEach(function (color) {
                     let renderCont = $('#item_blueprint #logo_parsed_image_cont').clone();
                     renderCont.attr('id','');
-                    renderCont.find('.logo_parsed_image_link').attr('href', '/download_logo?url=' + item.src + '&color=' + color + '&name=' + domain);
-                    renderCont.find('.logo_parsed_image_src').attr('src', '/get_logo?url=' + item.src + '&color=' + color);
+                    renderCont.find('.logo_parsed_image_link').attr('href', '/download_logo?color=' + color + '&name=' + domain + '&url=' + item.src );
+                    renderCont.find('.logo_parsed_image_src').attr('src', '/get_logo?color=' + color + '&url=' + item.src);
                     table.find('.imageList').append(renderCont);
                 })
 

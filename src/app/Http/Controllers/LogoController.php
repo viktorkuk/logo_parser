@@ -24,7 +24,7 @@ class LogoController extends Controller
     public function make(Request $request)
     {
         //header('Content-Type: image/png');
-        return $this->logoMakerService->makeLogo(
+        return $this->logoMakerService->getLogo(
             urldecode($request->get('url')),
             $request->get('color')
         );
@@ -36,7 +36,7 @@ class LogoController extends Controller
 
         header('Content-Type: image/png');
         header('Content-Disposition: attachment; filename=' . $filename);
-        return $this->logoMakerService->makeLogo(
+        return $this->logoMakerService->getLogo(
             urldecode($request->get('url')),
             $request->get('color')
         );

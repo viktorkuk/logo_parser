@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Imagick;
 
@@ -19,6 +20,17 @@ class LogoMakerService
     const SMALL_PADDING = 5;
 
 
+    public function getLogo(string $srcUrl, int $backgroundColor)
+    {
+        return Cache::remember(
+            'img_bin_'.md5($srcUrl).$backgroundColor,
+            3600,
+            function () use ($srcUrl, $backgroundColor)  {
+               return $this->makeLogo($srcUrl, $backgroundColor);
+            }
+        );
+    }
+
 
     public function makeLogo(string $srcUrl, int $backgroundColor)
     {
@@ -29,6 +41,9 @@ class LogoMakerService
         if ($fileType == 'svg') {
             $im = new Imagick();
             $im->readImageBlob($imageStr);
+
+            //TODO: set svg size here
+
             $im->setImageFormat("png24");
             $imageStr = $im->getimageblob();
         }
