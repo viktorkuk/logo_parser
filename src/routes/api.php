@@ -20,7 +20,7 @@ use App\Http\Controllers\ApiController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
-Route::group(['middleware' => 'throttle:500:1'], function () {
+Route::group(['middleware' => 'throttle:100:1'], function () {
     Route::get('/domains',
         [ApiController::class, 'getDomains']
     )->name('get_domains');
@@ -31,9 +31,19 @@ Route::group(['middleware' => 'throttle:500:1'], function () {
 });
 
 Route::group(['middleware' => 'throttle:60:1'], function () {
+
     Route::get('/logos/{domain}',
         [ApiController::class, 'findLogos']
     )->name('get_logos');
+
+    Route::get('/get_logo',
+        [LogoController::class, 'make']
+    )->name('get_logo');
+
+    Route::get('/download_logo',
+        [LogoController::class, 'download']
+    )->name('download_logo');
+
 });
 
 
