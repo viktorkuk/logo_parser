@@ -5,7 +5,12 @@ $(document).ready(function() {
     const arrayChank = 10;
 
     loadDomains();
+
+    setInterval( function () {
+        updateStat();
+    }, 10000 );
     updateStat();
+
 
     function loadDomains() {
         $.ajax({
@@ -42,7 +47,7 @@ $(document).ready(function() {
                 success:function(images) {
                     console.log(domain, images);
                     renderResults(domain, images);
-                    updateStat();
+                    //updateStat();
                 },
                 error:function() {
                     console.log("Load logos error for: ".domain);
@@ -71,8 +76,8 @@ $(document).ready(function() {
                 imageRenderColors.forEach(function (color) {
                     let renderCont = $('#item_blueprint #logo_parsed_image_cont').clone();
                     renderCont.attr('id','');
-                    renderCont.find('.logo_parsed_image_link').attr('href', '/download_logo?color=' + color + '&name=' + domain + '&url=' + item.src );
-                    renderCont.find('.logo_parsed_image_src').attr('src', '/get_logo?color=' + color + '&url=' + item.src);
+                    renderCont.find('.logo_parsed_image_link').attr('href', '/api/download_logo?color=' + color + '&name=' + domain + '&url=' + item.src );
+                    renderCont.find('.logo_parsed_image_src').attr('src', '/api/get_logo?color=' + color + '&url=' + item.src);
                     table.find('.imageList').append(renderCont);
                 })
 

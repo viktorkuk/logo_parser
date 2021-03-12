@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ParserController;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\LogoController;
 
 
 /*
@@ -20,7 +21,8 @@ use App\Http\Controllers\ApiController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
-Route::group(['middleware' => 'throttle:100:1'], function () {
+
+Route::middleware('throttle:400,1')->group(function () {
     Route::get('/domains',
         [ApiController::class, 'getDomains']
     )->name('get_domains');
@@ -30,8 +32,23 @@ Route::group(['middleware' => 'throttle:100:1'], function () {
     )->name('get_logos');
 });
 
-Route::group(['middleware' => 'throttle:60:1'], function () {
 
+Route::middleware('throttle:200,1')->group(function () {
+    //0.5 sec
+    Route::get('/get_logo',
+        [LogoController::class, 'make']
+    )->name('get_logo');
+
+    Route::get('/download_logo',
+        [LogoController::class, 'download']
+    )->name('download_logo');
+
+});
+
+
+Route::middleware('throttle:120,1')->group(function () {
+
+    //3-6 sec
     Route::get('/logos/{domain}',
         [ApiController::class, 'findLogos']
     )->name('get_logos');
