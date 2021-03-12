@@ -22,7 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
 
-Route::middleware('throttle:400,1')->group(function () {
+Route::middleware('throttle:other')->group(function () {
     Route::get('/domains',
         [ApiController::class, 'getDomains']
     )->name('get_domains');
@@ -30,24 +30,23 @@ Route::middleware('throttle:400,1')->group(function () {
     Route::get('/stat',
         [ApiController::class, 'getMetrics']
     )->name('get_logos');
+
+    Route::get('/download_logo',
+        [LogoController::class, 'download']
+    )->name('download_logo');
 });
 
 
-Route::middleware('throttle:200,1')->group(function () {
+Route::middleware('throttle:render')->group(function () {
     //0.5 sec
     Route::get('/get_logo',
         [LogoController::class, 'make']
     )->name('get_logo');
 
-    Route::get('/download_logo',
-        [LogoController::class, 'download']
-    )->name('download_logo');
-
 });
 
 
-Route::middleware('throttle:120,1')->group(function () {
-
+Route::middleware('throttle:parsing')->group(function () {
     //3-6 sec
     Route::get('/logos/{domain}',
         [ApiController::class, 'findLogos']
