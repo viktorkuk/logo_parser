@@ -33,7 +33,17 @@ Route::post('/csv_upload',
 )->name('parser_csv_upload');
 
 
+Route::group(['middleware' => 'throttle:60:1'], function () {
 
+    Route::get('/get_logo',
+        [LogoController::class, 'make']
+    )->name('get_logo');
+
+    Route::get('/download_logo',
+        [LogoController::class, 'download']
+    )->name('download_logo');
+
+});
 
 
 

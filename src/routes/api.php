@@ -36,14 +36,6 @@ Route::group(['middleware' => 'throttle:60:1'], function () {
         [ApiController::class, 'findLogos']
     )->name('get_logos');
 
-    Route::get('/get_logo',
-        [LogoController::class, 'make']
-    )->name('get_logo');
-
-    Route::get('/download_logo',
-        [LogoController::class, 'download']
-    )->name('download_logo');
-
 });
 
 
