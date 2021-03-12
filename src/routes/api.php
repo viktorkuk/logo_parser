@@ -30,7 +30,7 @@ Route::group(['middleware' => 'throttle:500:1'], function () {
     )->name('get_logos');
 });
 
-Route::group(['middleware' => 'throttle:200:1'], function () {
+Route::group(['middleware' => 'throttle:60:1'], function () {
     Route::get('/logos/{domain}',
         [ApiController::class, 'findLogos']
     )->name('get_logos');
