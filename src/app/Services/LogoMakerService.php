@@ -7,6 +7,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Imagick;
+use ImagickPixel;
 
 class LogoMakerService
 {
@@ -40,22 +41,26 @@ class LogoMakerService
 
         if ($fileType == 'svg') {
             $im = new Imagick();
+
+            //TODO: set svg size here, fix this
+            //$imageStr = $this->svgScale($imageStr, self::LARGE_IMAGE_HEIGHT, self::LARGE_IMAGE_HEIGHT);
+
+            //set transparent
+            $im->setBackgroundColor(new ImagickPixel('transparent'));
             $im->readImageBlob($imageStr);
 
-            //TODO: set svg size here
+            //$im->resizeImage($size, $size, imagick::FILTER_LANCZOS, 1);//????
 
-            $im->setImageFormat("png24");
+            $im->setImageFormat("png32");
             $imageStr = $im->getimageblob();
+
+            $im->clear();
+            $im->destroy();
         }
 
         //echo $imageStr; die();
 
-        $image = imagecreatefromstring( $imageStr
-            //file_get_contents($imageStr)
-            //Http::get('https://' . $srcUrl)->body()
-        );
-
-
+        $image = imagecreatefromstring( $imageStr );
 
         /*
         switch($fileType) {
@@ -203,6 +208,32 @@ class LogoMakerService
         }
         // The image copy
         imagecopy($dst_im, $src_im, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h);
+    }
+
+    protected function svgScale($svg, $minWidth, $minHeight)
+    {
+        $reW = '/(.*<svg[^>]* width=")([\d.]+px)(.*)/si';
+        $reH = '/(.*<svg[^>]* height=")([\d.]+px)(.*)/si';
+        preg_match($reW, $svg, $mw);
+        preg_match($reH, $svg, $mh);
+        $width = floatval($mw[2]);
+        $height = floatval($mh[2]);
+        if (!$width || !$height) return false;
+
+        // scale to make width and height big enough
+        $scale = 1;
+        if ($width < $minWidth)
+            $scale = $minWidth/$width;
+        if ($height < $minHeight)
+            $scale = max($scale, ($minHeight/$height));
+
+        $width *= $scale*2;
+        $height *= $scale*2;
+
+        $svg = preg_replace($reW, "\${1}{$width}px\${3}", $svg);
+        $svg = preg_replace($reH, "\${1}{$height}px\${3}", $svg);
+
+        return $svg;
     }
 
 
