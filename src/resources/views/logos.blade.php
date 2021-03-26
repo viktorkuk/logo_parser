@@ -146,7 +146,9 @@
                                     <tr>
                                         <td colspan="3" style="align-content: center; background-color: #888888;">
                                             <h3>Type: <span class="logo_type"></span></h3>
-                                            <img class="logo_src rounded img-fluid" src="" style="max-width: 1050px;">
+                                            <a class="logo_src_image_link" href="#">
+                                                <img class="logo_src rounded img-fluid" src="" style="max-width: 1050px;">
+                                            </a>
                                         </td>
                                     </tr>
                                     </tbody>

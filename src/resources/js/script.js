@@ -68,9 +68,8 @@ $(document).ready(function() {
             images.forEach(function (item, key) {
                 let table = $('#item_blueprint .image_table').clone();
                 table.find('.logo_type').html(item.type);
+                table.find('.logo_src_image_link').attr('href', '/api/download_origin_logo?name=_' + domain + '&src_url=' + encodeURI(item.src));
                 table.find('.logo_src').attr('src', item.src);
-
-
                 table.find('.imageList').html('');
 
                 imageRenderColors.forEach(function (color) {

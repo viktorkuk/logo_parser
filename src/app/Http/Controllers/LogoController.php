@@ -42,4 +42,15 @@ class LogoController extends Controller
         );
     }
 
+    public function downloadOrigin(Request $request)
+    {
+        $srcUrl = $request->get('src_url');
+        $fileContent = file_get_contents($srcUrl);
+        $fileType = strtolower(substr($srcUrl, strrpos($srcUrl, '.')+1, 3));
+        $fileName = $request->get('name') . '.'.$fileType;
+
+        header('Content-Disposition: attachment; filename=' . $fileName);
+        return $fileContent;
+    }
+
 }

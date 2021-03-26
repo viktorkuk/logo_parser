@@ -61,11 +61,11 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('parsing', function (Request $request) {
-            return Limit::perMinute(250)->by(optional($request->user())->id ?: $request->ip());
+            return Limit::perMinute(400)->by(optional($request->user())->id ?: $request->ip());
         });
 
         RateLimiter::for('render', function (Request $request) {
-            return Limit::perMinute(2000)->by(optional($request->user())->id ?: $request->ip());
+            return Limit::perMinute(3000)->by(optional($request->user())->id ?: $request->ip());
         });
 
         RateLimiter::for('other', function (Request $request) {

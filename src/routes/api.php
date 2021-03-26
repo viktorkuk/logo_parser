@@ -34,6 +34,10 @@ Route::middleware('throttle:other')->group(function () {
     Route::get('/download_logo',
         [LogoController::class, 'download']
     )->name('download_logo');
+
+    Route::get('/download_origin_logo',
+        [LogoController::class, 'downloadOrigin']
+    )->name('download_origin_logo');
 });
 
 
