@@ -75,7 +75,9 @@ class LogoParserService
             }
 
             Cache::increment('parse_success');
-            return $imgData;
+
+            //get first 5 results
+            return array_slice($imgData,0, 5);
         });
     }
 
